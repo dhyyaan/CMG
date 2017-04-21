@@ -1,5 +1,7 @@
 package com.think360.cmg.manager;
 
+import com.think360.cmg.model.user.Data;
+
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -12,9 +14,9 @@ import retrofit2.http.POST;
 public interface ApiService {
 
 
-  /*  @FormUrlEncoded
+    @FormUrlEncoded
     @POST("login/")
-    Call<User> loginUser(@Field("mobile") String name,
-                         @Field("password") String password);*/
+    Call<Data> loginUser(@Field("email") String name,
+                         @Field("password") String password);
 
 }

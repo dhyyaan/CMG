@@ -34,8 +34,8 @@ public class HomeActivity extends AppCompatActivity implements WorkFragment.OnFr
     private ArrayList<Fragment> getFragmentArrrayList() {
         ArrayList<Fragment> fragmentSparseArray = new ArrayList<>();
         fragmentSparseArray.add(WorkFragment.newInstance("", ""));
-        fragmentSparseArray.add(WorkFragment.newInstance("", ""));
-        fragmentSparseArray.add(WorkFragment.newInstance("", ""));
+        fragmentSparseArray.add(WorkHistoryFragment.newInstance("", ""));
+        fragmentSparseArray.add(WorkHistoryFragment.newInstance("", ""));
 
         return fragmentSparseArray;
 

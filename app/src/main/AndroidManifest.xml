@@ -2,8 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.think360.cmg">
 
+
+    <uses-permission-sdk-23 android:name="android.permission.INTERNET"/>
     <application
-        android:name=".MainApplication"
+        android:name=".AppController"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -24,7 +26,9 @@
             android:name=".StopWatchService"
             android:process=":myBackgroundServiceProcess" />
 
-        <activity android:name=".view.acitivity.HomeActivity"></activity>
+        <activity
+            android:windowSoftInputMode="stateAlwaysHidden|adjustNothing"
+            android:name=".view.acitivity.HomeActivity"></activity>
     </application>
 
 </manifest>

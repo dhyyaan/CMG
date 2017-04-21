@@ -18,6 +18,16 @@ import java.util.List;
 import java.util.TimeZone;
 import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
+
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -37,6 +47,7 @@ public class WorkFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
 
     public WorkFragment() {
         // Required empty public constructor
@@ -77,17 +88,45 @@ public class WorkFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        String[] ids = TimeZone.getAvailableIDs();
-        List<String> stringArrayList = new ArrayList<>();
-        for (String id : ids) {
-            System.out.println(displayTimeZone(TimeZone.getTimeZone(id)));
-            stringArrayList.add(displayTimeZone(TimeZone.getTimeZone(id)));
-        }
-        ((AutoCompleteTextView) view.findViewById(R.id.acTimeZone)).setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, stringArrayList));
+        Observable.create(new ObservableOnSubscribe<List<String>>() {
+            @Override
+            public void subscribe(@NonNull ObservableEmitter<List<String>> e) throws Exception {
+                List<String> stringArrayList = new ArrayList<>();
+                for (String id : TimeZone.getAvailableIDs()) {
+                    stringArrayList.add(displayTimeZone(TimeZone.getTimeZone(id)));
+                }
+                e.onNext(stringArrayList);
+            }
+        }).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Observer<List<String>>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(final List<String> strings) {
+
+                ((AutoCompleteTextView) view.findViewById(R.id.acTimeZone)).setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, strings));
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
+
+
     }
+
 
     private static String displayTimeZone(TimeZone tz) {
 

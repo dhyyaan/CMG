@@ -8,6 +8,23 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme.Widget.TextView" parent="AppTheme">
+        <!-- Custom Attr-->
+        <item name="fontPath">fonts/robotolight.ttf</item>
+    </style>
+
+    <style name="AppTheme.Widget.TextView.Style">
+        <item name="fontPath">fonts/robotolight.ttf</item>
+    </style>
+
+
+    <style name="TextAppearance.FontPath" parent="android:TextAppearance">
+        <!-- Custom Attr-->
+        <item name="fontPath">fonts/robotolight.ttf</item>
+        <item name="android:textColor">#444</item>
+    </style>
+
+
     <style name="FullscreenTheme" parent="AppTheme">
         <item name="android:actionBarStyle">@style/FullscreenActionBarStyle</item>
         <item name="android:windowActionBarOverlay">true</item>
@@ -47,8 +64,6 @@
     </style>
 
     <style name="EditTextImage">
-
-        <item name="fontPath">fonts/robotolight.ttf</item>
         <item name="android:layout_margin">7.5dp</item>
         <item name="android:layout_width">24dp</item>
         <item name="android:layout_height">24dp</item>

@@ -13,7 +13,7 @@ import dagger.Component;
 @Component(modules = {HttpModule.class, ApplicationModule.class})
 public interface AppComponent {
 
-    void inject(LoginActivity fragment);
+    void inject(LoginActivity loginActivity);
 
     ApiService api();
 }

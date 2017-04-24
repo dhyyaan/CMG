@@ -4,12 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.think360.cmg.AppController;
 import com.think360.cmg.R;
 import com.think360.cmg.databinding.ActivityMainBinding;
+import com.think360.cmg.di.components.ActivityComponent;
+import com.think360.cmg.di.components.DaggerActivityComponent;
+import com.think360.cmg.di.modules.ActivityModule;
 import com.think360.cmg.manager.ApiService;
 import com.think360.cmg.model.user.Data;
 
@@ -27,6 +31,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private ActivityMainBinding activityMainBinding;
+    ActivityComponent component;
 
 
     @Override
@@ -34,7 +39,23 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
-        AppController.getInstance().getComponent().inject(this);
+        component = DaggerActivityComponent.builder()
+                .activityModule(new ActivityModule(this))
+                .appComponent(((AppController) getApplication()).getComponent())
+                .build();
+
+        ((AppController) getApplication()).getComponent()
+                .inject(this);
+
+
+        try {
+            Settings.Global.getInt(getContentResolver(), Settings.Global.AUTO_TIME);
+
+
+            Settings.Global.getInt(getContentResolver(), Settings.Global.AUTO_TIME_ZONE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
     }
@@ -65,5 +86,8 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+    public ActivityComponent getComponent() {
+        return component;
     }
 }

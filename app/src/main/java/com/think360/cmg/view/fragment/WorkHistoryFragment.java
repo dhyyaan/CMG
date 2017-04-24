@@ -12,8 +12,34 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.GsonBuilder;
+import com.think360.cmg.AppController;
+import com.think360.cmg.BR;
+import com.think360.cmg.BuildConfig;
 import com.think360.cmg.R;
+import com.think360.cmg.adapter.RecyclerBindingAdapter;
 import com.think360.cmg.databinding.FragmentWorkHistoryBinding;
+import com.think360.cmg.manager.ApiService;
+import com.think360.cmg.model.work.Data;
+import com.think360.cmg.model.work.WorkHistory;
+import com.think360.cmg.presenter.ProjectPresenter;
+import com.think360.cmg.utils.AppConstants;
+
+import java.io.IOException;
+import java.util.AbstractList;
+
+import javax.inject.Inject;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,7 +49,7 @@ import com.think360.cmg.databinding.FragmentWorkHistoryBinding;
  * Use the {@link WorkHistoryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class WorkHistoryFragment extends Fragment {
+public class WorkHistoryFragment extends Fragment implements ProjectPresenter.View {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -33,6 +59,9 @@ public class WorkHistoryFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    @Inject
+    ApiService apiService;
+
     private OnFragmentInteractionListener mListener;
 
     public WorkHistoryFragment() {
@@ -40,6 +69,7 @@ public class WorkHistoryFragment extends Fragment {
     }
 
     private FragmentWorkHistoryBinding fragmentWorkHistoryBinding;
+    private ProjectPresenter projectPresenter;
 
     /**
      * Use this factory method to create a new instance of
@@ -80,11 +110,31 @@ public class WorkHistoryFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
+        ((AppController) getActivity().getApplication()).getComponent()
+                .inject(this);
+
         fragmentWorkHistoryBinding.rvWorkHistory.setLayoutManager(new LinearLayoutManager(getActivity()));
         fragmentWorkHistoryBinding.rvWorkHistory.setHasFixedSize(true);
         fragmentWorkHistoryBinding.rvWorkHistory.setItemAnimator(new DefaultItemAnimator());
 
 
+
+
+
+
+        projectPresenter = new ProjectPresenter(this, apiService,1);
+
+
+    }
+
+    public OkHttpClient provideHttpLogging() {
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
+        return new OkHttpClient.Builder()
+                .addInterceptor(logging)
+                .build();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -109,6 +159,21 @@ public class WorkHistoryFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void showGithubInfo(WorkHistory collection) {
+        fragmentWorkHistoryBinding.rvWorkHistory.setAdapter(new RecyclerBindingAdapter<Data>(R.layout.single_item_project, BR.project, (AbstractList<Data>) collection.getData()));
+    }
+
+    @Override
+    public void onCompleted() {
+
+    }
+
+    @Override
+    public void onError(Throwable t) {
+
     }
 
     /**

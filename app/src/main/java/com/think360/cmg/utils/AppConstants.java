@@ -6,5 +6,6 @@ package com.think360.cmg.utils;
 
 public class AppConstants {
 
-    public static final String BASE_URL = "http://think360.in/cmw/api/index.php/12345/";
+    public static final String BASE_URL = "http://cmgsl.net/backOfficeCMG/api/index.php/12345/";
+
 }

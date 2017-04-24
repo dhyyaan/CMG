@@ -5,27 +5,14 @@ import android.content.Context;
 
 import com.think360.cmg.di.components.AppComponent;
 import com.think360.cmg.di.components.DaggerAppComponent;
+import com.think360.cmg.di.modules.AndroidModule;
 import com.think360.cmg.di.modules.ApplicationModule;
 import com.think360.cmg.di.modules.HttpModule;
 
+import timber.log.Timber;
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
-
 
 public class AppController extends Application {
-
-
-    private static AppController instance;
-
-    private AppComponent applicationComponent;
-
-    public static AppController getInstance() {
-        return instance;
-    }
-
-    public static void setInstance(AppController instance) {
-        AppController.instance = instance;
-    }
 
 
     private AppComponent component;
@@ -34,9 +21,10 @@ public class AppController extends Application {
     public void onCreate() {
         super.onCreate();
 
-        setInstance(this);
+
         component = DaggerAppComponent.builder()
                 .applicationModule(new ApplicationModule(this))
+                .androidModule(new AndroidModule())
                 .httpModule(new HttpModule())
                 .build();
 
@@ -45,6 +33,7 @@ public class AppController extends Application {
                 .setFontAttrId(R.attr.fontPath)
                 .build()
         );
+        Timber.plant(new Timber.DebugTree());
 
     }
 

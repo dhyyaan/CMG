@@ -1,6 +1,7 @@
 package com.think360.cmg.di.modules;
 
 
+import com.google.gson.GsonBuilder;
 import com.think360.cmg.BuildConfig;
 import com.think360.cmg.manager.ApiService;
 import com.think360.cmg.utils.AppConstants;
@@ -33,7 +34,7 @@ public class HttpModule {
     public Retrofit provideRetrofit(OkHttpClient okHttpClient) {
         return new Retrofit.Builder()
                 .baseUrl(AppConstants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setLenient().create()))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(okHttpClient)
                 .build();
@@ -41,7 +42,7 @@ public class HttpModule {
 
     @Provides
     @Singleton
-    public ApiService provideApiService(Retrofit retrofit) {
+    public ApiService  provideApiService(Retrofit retrofit) {
         return retrofit.create(ApiService.class);
     }
 }

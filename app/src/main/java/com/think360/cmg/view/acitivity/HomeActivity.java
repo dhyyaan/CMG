@@ -12,12 +12,13 @@ import com.think360.cmg.adapter.PagerAdapter;
 import com.think360.cmg.R;
 import com.think360.cmg.StopWatchService;
 import com.think360.cmg.databinding.ActivityHomeBinding;
+import com.think360.cmg.view.fragment.TimeFragment;
 import com.think360.cmg.view.fragment.WorkFragment;
 import com.think360.cmg.view.fragment.WorkHistoryFragment;
 
 import java.util.ArrayList;
 
-public class HomeActivity extends AppCompatActivity implements WorkFragment.OnFragmentInteractionListener,WorkHistoryFragment.OnFragmentInteractionListener {
+public class HomeActivity extends AppCompatActivity implements WorkFragment.OnFragmentInteractionListener,WorkHistoryFragment.OnFragmentInteractionListener,TimeFragment.OnFragmentInteractionListener {
 
 
     private ActivityHomeBinding activityHomeBinding;
@@ -35,7 +36,7 @@ public class HomeActivity extends AppCompatActivity implements WorkFragment.OnFr
         ArrayList<Fragment> fragmentSparseArray = new ArrayList<>();
         fragmentSparseArray.add(WorkFragment.newInstance("", ""));
         fragmentSparseArray.add(WorkHistoryFragment.newInstance("", ""));
-        fragmentSparseArray.add(WorkHistoryFragment.newInstance("", ""));
+        fragmentSparseArray.add(TimeFragment.newInstance("", ""));
 
         return fragmentSparseArray;
 

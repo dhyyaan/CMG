@@ -5,7 +5,7 @@ import android.app.Application;
 import android.content.Context;
 
 
-import com.think360.cmg.di.scope.ApplicationContext;
+import com.think360.cmg.di.ApplicationContext;
 
 import javax.inject.Singleton;
 

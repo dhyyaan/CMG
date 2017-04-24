@@ -4,8 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 
 
-import com.think360.cmg.di.scope.ActivityContext;
-import com.think360.cmg.di.scope.PerActivity;
+import com.think360.cmg.di.ActivityContext;
+import com.think360.cmg.di.PerActivity;
 
 import dagger.Module;
 import dagger.Provides;

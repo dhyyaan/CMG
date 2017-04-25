@@ -3,7 +3,7 @@ package com.think360.cmg.di.modules;
 
 import android.app.Application;
 import android.content.Context;
-
+import android.content.SharedPreferences;
 
 import com.think360.cmg.di.ApplicationContext;
 
@@ -26,6 +26,13 @@ public class ApplicationModule {
     @ApplicationContext
     public Context provideContext() {
         return this.application;
+    }
+
+    @Provides
+    @Singleton
+    @ApplicationContext
+    SharedPreferences provideSharedPrefs() {
+        return application.getSharedPreferences("demo-prefs", Context.MODE_PRIVATE);
     }
 
 }

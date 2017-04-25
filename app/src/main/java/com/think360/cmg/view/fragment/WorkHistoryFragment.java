@@ -12,10 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.GsonBuilder;
 import com.think360.cmg.AppController;
 import com.think360.cmg.BR;
-import com.think360.cmg.BuildConfig;
 import com.think360.cmg.R;
 import com.think360.cmg.adapter.RecyclerBindingAdapter;
 import com.think360.cmg.databinding.FragmentWorkHistoryBinding;
@@ -23,23 +21,10 @@ import com.think360.cmg.manager.ApiService;
 import com.think360.cmg.model.work.Data;
 import com.think360.cmg.model.work.WorkHistory;
 import com.think360.cmg.presenter.ProjectPresenter;
-import com.think360.cmg.utils.AppConstants;
 
-import java.io.IOException;
 import java.util.AbstractList;
 
 import javax.inject.Inject;
-
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -120,22 +105,11 @@ public class WorkHistoryFragment extends Fragment implements ProjectPresenter.Vi
         fragmentWorkHistoryBinding.rvWorkHistory.setItemAnimator(new DefaultItemAnimator());
 
 
-
-
-
-
-        projectPresenter = new ProjectPresenter(this, apiService,1);
+        projectPresenter = new ProjectPresenter(this, apiService, 1);
 
 
     }
 
-    public OkHttpClient provideHttpLogging() {
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-        logging.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE);
-        return new OkHttpClient.Builder()
-                .addInterceptor(logging)
-                .build();
-    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -163,7 +137,7 @@ public class WorkHistoryFragment extends Fragment implements ProjectPresenter.Vi
 
     @Override
     public void showGithubInfo(WorkHistory collection) {
-        fragmentWorkHistoryBinding.rvWorkHistory.setAdapter(new RecyclerBindingAdapter<Data>(R.layout.single_item_project, BR.project, (AbstractList<Data>) collection.getData()));
+        fragmentWorkHistoryBinding.rvWorkHistory.setAdapter(new RecyclerBindingAdapter<>(R.layout.single_item_project, BR.project, (AbstractList<Data>) collection.getData()));
     }
 
     @Override

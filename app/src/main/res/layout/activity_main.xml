@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context="com.think360.cmg.view.acitivity.LoginActivity">
 
+        <ImageView
+            android:id="@+id/ivLogo"
+            android:layout_centerHorizontal="true"
+            android:layout_width="196dp"
+            android:src="@drawable/cmg_logo"
+            android:layout_height="196dp" />
+
         <LinearLayout
+            android:layout_below="@+id/ivLogo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
             android:orientation="vertical">
 
 
@@ -20,29 +30,19 @@
                 style="@style/TextViewHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Email/Mobile no" />
+                android:text="@string/email_mobile_no" />
 
-            <LinearLayout
-                style="@style/BorderLinearLayout"
+
+            <EditText
+                android:id="@+id/etEmail"
+                style="@style/EditTextRoboto"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    style="@style/EditTextImage"
-                    android:src="@drawable/email" />
-
-                <EditText
-                    android:id="@+id/etEmail"
-                    style="@style/EditTextRoboto"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Username"
-                    android:imeOptions="actionNext"
-                    android:inputType="text"
-                    android:nextFocusForward="@+id/etPassword"
-                    android:text="amitchauhan1.think360@gmail.com" />
-            </LinearLayout>
-
+                android:layout_height="wrap_content"
+                android:hint="@string/email"
+                android:imeOptions="actionNext"
+                android:inputType="textEmailAddress"
+                android:nextFocusForward="@+id/etPassword"
+                android:text="@string/amitchauhan1_think360_gmail_com" />
 
             <TextView
                 style="@style/TextViewHeader"
@@ -50,25 +50,16 @@
                 android:layout_height="wrap_content"
                 android:text="@string/password" />
 
-            <LinearLayout
-                style="@style/BorderLinearLayout"
+
+            <EditText
+                android:id="@+id/etPassword"
+                style="@style/EditTextRoboto"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    style="@style/EditTextImage"
-                    android:src="@drawable/password" />
-
-                <EditText
-                    android:text="123456"
-                    android:id="@+id/etPassword"
-                    style="@style/EditTextRoboto"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Password"
-                    android:imeOptions="actionDone"
-                    android:inputType="textPassword" />
-            </LinearLayout>
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:text="@string/_123456" />
 
 
             <!-- Password Re-enter Label -->
@@ -84,6 +75,34 @@
                 android:visibility="visible">
 
 
+                <RelativeLayout
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="left|center_vertical"
+                    android:gravity="left|center_vertical">
+
+                    <Switch
+                        android:id="@+id/switch_gprs"
+                        style="@style/CustomSwitchButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:checked="false"
+                        android:gravity="center_vertical"
+                        app:buttonTint="@color/appYellow" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_toRightOf="@+id/switch_gprs"
+                        android:checked="false"
+                        android:gravity="center_vertical"
+                        android:text="Remember me"
+                        android:textColor="@color/appGray"
+                        app:buttonTint="@color/appYellow" />
+
+                </RelativeLayout>
+
                 <TextView
                     android:id="@+id/tvForgetPassword"
                     android:layout_width="wrap_content"
@@ -92,12 +111,13 @@
                     android:layout_weight="1"
                     android:gravity="right|center_vertical"
                     android:text="Forgot Password ?"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
                     android:textColor="@color/appGray" />
 
             </LinearLayout>
 
             <!-- Signup Button -->
-            <TextView
+            <com.think360.cmg.utils.RobotoLightTextView
                 android:id="@+id/btnSignIn"
                 android:layout_width="fill_parent"
                 android:layout_height="48dp"
@@ -107,7 +127,7 @@
                 android:background="@drawable/rectanglefilled"
                 android:gravity="center"
                 android:onClick="login"
-                android:text="LOGIN"
+                android:text="@string/login"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
 

@@ -2,10 +2,13 @@ package com.think360.cmg.adapter;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.think360.cmg.R;
 
 import java.util.AbstractList;
 import java.util.ArrayList;
@@ -37,6 +40,7 @@ public class RecyclerBindingAdapter<T> extends RecyclerView.Adapter<RecyclerBind
         final T item = items.get(position);
 
         holder.getBinding().setVariable(variableId, item);
+        holder.getBinding().getRoot().findViewById(R.id.layoutSingleItem).setBackgroundColor(position%2==0? ContextCompat.getColor(holder.getBinding().getRoot().getContext(), R.color.oppositeInRec): ContextCompat.getColor(holder.getBinding().getRoot().getContext(), R.color.white));
 
 
     }

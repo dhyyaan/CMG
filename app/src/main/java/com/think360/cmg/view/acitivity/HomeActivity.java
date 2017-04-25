@@ -13,7 +13,7 @@ import com.think360.cmg.R;
 import com.think360.cmg.StopWatchService;
 import com.think360.cmg.adapter.PagerAdapter;
 import com.think360.cmg.databinding.ActivityHomeBinding;
-import com.think360.cmg.view.fragment.TimeFragment;
+import com.think360.cmg.view.fragment.ProfileFragment;
 import com.think360.cmg.view.fragment.WorkFragment;
 import com.think360.cmg.view.fragment.WorkHistoryFragment;
 
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
 
-public class HomeActivity extends AppCompatActivity implements WorkFragment.OnFragmentInteractionListener, WorkHistoryFragment.OnFragmentInteractionListener, TimeFragment.OnFragmentInteractionListener {
+public class HomeActivity extends AppCompatActivity implements WorkFragment.OnFragmentInteractionListener, WorkHistoryFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener {
 
 
     private ActivityHomeBinding activityHomeBinding;
@@ -62,7 +62,7 @@ public class HomeActivity extends AppCompatActivity implements WorkFragment.OnFr
         ArrayList<Fragment> fragmentSparseArray = new ArrayList<>();
         fragmentSparseArray.add(WorkHistoryFragment.newInstance("", ""));
         fragmentSparseArray.add(WorkFragment.newInstance("", ""));
-        fragmentSparseArray.add(TimeFragment.newInstance("", ""));
+        fragmentSparseArray.add(ProfileFragment.newInstance("", ""));
 
         return fragmentSparseArray;
 

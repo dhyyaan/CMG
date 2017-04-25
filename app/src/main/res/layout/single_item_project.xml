@@ -11,6 +11,7 @@
 
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/layoutSingleItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -22,45 +23,50 @@
             android:weightSum="4">
 
 
-            <TextView
+            <com.think360.cmg.utils.RobotoLightTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 android:text="@{project.projectName}"
 
                 />
 
-            <TextView
+            <com.think360.cmg.utils.RobotoLightTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 android:text="@{project.startDate}"
 
                 />
 
-            <TextView
+            <com.think360.cmg.utils.RobotoLightTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 android:text="@{project.clientName}"
 
                 />
 
-            <TextView
+            <com.think360.cmg.utils.RobotoLightTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
                 android:text="@{project.endDate}"
 
                 />
         </LinearLayout>
+
         <View
-            android:background="@color/appGray"
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"/>
+            android:layout_height="0.5dp"
+            android:background="@color/appGray" />
     </LinearLayout>
 </layout>

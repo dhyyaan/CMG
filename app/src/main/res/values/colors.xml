@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#00162E</color>
+    <color name="colorPrimaryDark">#000005</color>
+    <color name="colorAccent">#F75D26</color>
+
+
+    <color name="appYellow">#F75D26</color>
 
     <color name="black_overlay">#66000000</color>
-    <color name="appGray">#cbcbcb</color>
+    <color name="appGray">#66000000</color>
     <color name="white">#fff</color>
+    <color name="appGrayProfile">#99A3AC</color>
+    <color name="profilePhotoBorder">#B5BBC6</color>
+    <color name="oppositeInRec">#E1E1E0</color>
 </resources>

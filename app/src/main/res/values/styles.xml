@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -40,11 +40,10 @@
 
     <style name="EditTextRoboto" parent="@android:style/Widget.EditText">
         <item name="android:textSize">16sp</item>
-        <item name="android:background">@null</item>
-        <item name="android:padding">5dp</item>
+        <item name="android:padding">10dp</item>
         <item name="android:textCursorDrawable">@drawable/color_cursor_blue</item>
-        <item name="android:layout_marginLeft">0dp</item>
-        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">20dp</item>
     </style>
 
     <style name="TextViewHeader" parent="@android:style/Widget.TextView">
@@ -67,6 +66,11 @@
         <item name="android:layout_margin">7.5dp</item>
         <item name="android:layout_width">24dp</item>
         <item name="android:layout_height">24dp</item>
+    </style>
+
+    <style name="CustomSwitchButton" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/appYellow</item>
+        <item name="colorControlActivated">@color/appYellow</item>
     </style>
 
 

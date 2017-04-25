@@ -6,8 +6,19 @@ import android.view.inputmethod.InputMethodManager;
 
 public class KeyboardUtil {
 
-    public void hideKeyboard(View view, Context mContext) {
+    private static String TAG = KeyboardUtil.class.getSimpleName();
+
+    public static void hideKeyboard(View view, Context mContext) {
         ((InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE))
                 .hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+
+    public final static boolean isValidEmail(CharSequence target) {
+        if (target == null) {
+            return false;
+        } else {
+            return android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
+        }
     }
 }

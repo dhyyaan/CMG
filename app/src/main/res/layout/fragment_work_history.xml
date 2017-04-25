@@ -10,39 +10,45 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:elevation="3dp"
             android:padding="5dp">
 
 
-            <TextView
+            <com.think360.cmg.utils.RobotoNormalTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:hint="@string/proyecto" />
+                android:text="@string/proyecto"
+                android:textColor="@color/colorPrimary" />
 
-            <TextView
+            <com.think360.cmg.utils.RobotoNormalTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:hint="@string/inicio" />
+                android:text="@string/inicio"
+                android:textColor="@color/colorPrimary" />
 
-            <TextView
+            <com.think360.cmg.utils.RobotoNormalTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:hint="@string/estado" />
+                android:text="@string/estado"
+                android:textColor="@color/colorPrimary" />
 
-            <TextView
+            <com.think360.cmg.utils.RobotoNormalTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center_horizontal"
-                android:hint="@string/fecha" />
+                android:text="@string/fecha"
+                android:textColor="@color/colorPrimary" />
         </LinearLayout>
 
         <View
+
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="@color/appGray" />

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/colorPrimaryDark"
-    app:bbn_itemColorActive="@android:color/white"
+    android:background="@color/white"
+    app:bbn_itemColorActive="@color/appYellow"
     app:bbn_itemColorDisabled="#33ffffff"
-    app:bbn_itemColorInactive="#99ffffff"
-    app:bbn_rippleColor="#ccffffff">
+    app:bbn_itemColorInactive="@color/appGray"
+    app:bbn_rippleColor="#ccF75D26">
     <item
         android:id="@+id/bbn_item1"
         android:icon="@drawable/ic_history"
@@ -16,6 +16,6 @@
         android:title="Trabajo" />
     <item
         android:id="@+id/bbn_item3"
-        android:icon="@drawable/ic_mail_white_24dp"
+        android:icon="@drawable/ic_settings"
         android:title="Ajustes" />
 </menu>

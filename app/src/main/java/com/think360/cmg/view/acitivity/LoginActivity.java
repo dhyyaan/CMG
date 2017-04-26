@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.think360.cmg.AppController;
@@ -17,6 +16,7 @@ import com.think360.cmg.R;
 import com.think360.cmg.databinding.ActivityMainBinding;
 import com.think360.cmg.manager.ApiService;
 import com.think360.cmg.presenter.LoginPresenter;
+import com.think360.cmg.utils.AppConstants;
 import com.think360.cmg.utils.KeyboardUtil;
 
 import javax.inject.Inject;
@@ -24,6 +24,10 @@ import javax.inject.Inject;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class LoginActivity extends AppCompatActivity implements LoginPresenter.View {
+
+
+   /* @Inject
+    SharedPrefsHelper sharedPrefsHelper;*/
 
     @Inject
     ApiService apiService;
@@ -79,12 +83,15 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
 
 
     @Override
-    public void loginSucessfull(String firstName, String workderId) {
+    public void loginSucessfull(String firstName, int workderId) {
 
+        AppController.getSharedPrefEditor().putBoolean(AppConstants.IS_REMEMBER_TAPPED, activityMainBinding.switchGprs.isChecked()).apply();
+        AppController.getSharedPrefEditor().putBoolean(AppConstants.IS_LOGIN, true).apply();
 
         startActivity(new Intent(LoginActivity.this, HomeActivity.class));
         finish();
     }
+
 
     @Override
     public void loginFailed(Throwable t) {

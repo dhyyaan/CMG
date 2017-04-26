@@ -28,11 +28,6 @@ public class ApplicationModule {
         return this.application;
     }
 
-    @Provides
-    @Singleton
-    @ApplicationContext
-    SharedPreferences provideSharedPrefs() {
-        return application.getSharedPreferences("demo-prefs", Context.MODE_PRIVATE);
-    }
+
 
 }

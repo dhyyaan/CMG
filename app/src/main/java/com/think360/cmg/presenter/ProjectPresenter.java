@@ -27,7 +27,7 @@ public class ProjectPresenter {
         void onError(Throwable t);
     }
 
-    public ProjectPresenter(ProjectPresenter.View view, ApiService api,int id) {
+    public ProjectPresenter(ProjectPresenter.View view, ApiService api, int id) {
         this.view = view;
         this.api = api;
         _disposables = new CompositeDisposable();
@@ -44,6 +44,8 @@ public class ProjectPresenter {
 
             @Override
             public void onFailure(Call<WorkHistory> call, Throwable t) {
+
+                view.onError(t);
 
             }
         });

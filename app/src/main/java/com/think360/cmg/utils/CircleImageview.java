@@ -39,7 +39,7 @@ import android.widget.ImageView;
 import com.think360.cmg.R;
 
 
-public class CircleImageview extends ImageView {
+public class CircleImageview extends android.support.v7.widget.AppCompatImageView {
 
     private static final ScaleType SCALE_TYPE = ScaleType.CENTER_CROP;
 

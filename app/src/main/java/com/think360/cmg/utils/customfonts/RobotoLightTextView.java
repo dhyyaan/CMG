@@ -1,30 +1,29 @@
-package com.think360.cmg.utils;
+package com.think360.cmg.utils.customfonts;
 
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 
-public class RobotoLightEditText extends android.support.v7.widget.AppCompatEditText {
+public class RobotoLightTextView extends android.support.v7.widget.AppCompatTextView {
 
-    public RobotoLightEditText(Context context, AttributeSet attrs, int defStyle) {
+    public RobotoLightTextView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init();
     }
 
-    public RobotoLightEditText(Context context, AttributeSet attrs) {
+    public RobotoLightTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    public RobotoLightEditText(Context context) {
+    public RobotoLightTextView(Context context) {
         super(context);
         init();
     }
 
     private void init() {
-        if (!isInEditMode()) {
             Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/robotolight.ttf");
             setTypeface(tf);
-        }
+
     }
 }

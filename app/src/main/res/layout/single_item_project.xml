@@ -23,7 +23,7 @@
             android:weightSum="4">
 
 
-            <com.think360.cmg.utils.RobotoLightTextView
+            <com.think360.cmg.utils.customfonts.RobotoLightTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -33,7 +33,7 @@
 
                 />
 
-            <com.think360.cmg.utils.RobotoLightTextView
+            <com.think360.cmg.utils.customfonts.RobotoLightTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -43,7 +43,7 @@
 
                 />
 
-            <com.think360.cmg.utils.RobotoLightTextView
+            <com.think360.cmg.utils.customfonts.RobotoLightTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -53,7 +53,7 @@
 
                 />
 
-            <com.think360.cmg.utils.RobotoLightTextView
+            <com.think360.cmg.utils.customfonts.RobotoLightTextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

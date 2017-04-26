@@ -1,13 +1,18 @@
 package com.think360.cmg.manager;
 
-import com.think360.cmg.model.user.Data;
+import com.think360.cmg.model.WorkerEditProfileModel;
+import com.think360.cmg.model.user.User;
 import com.think360.cmg.model.work.WorkHistory;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 
 /**
@@ -16,21 +21,32 @@ import retrofit2.http.POST;
 
 public interface ApiService {
 
-
     @FormUrlEncoded
     @POST("login/")
-    Call<Data> loginUser(@Field("email") String name,
+    Call<User> loginUser(@Field("email") String name,
                          @Field("password") String password);
 
 
     @FormUrlEncoded
     @POST("workerprofile")
-    Call<WorkHistory> getWorkHistoryWithCall(@Field("id") int password);
+    Call<WorkHistory> getWorkHistoryWithCall(@Field("id") int id);
 
 
     @FormUrlEncoded
+    @POST("workerlogout")
+    Call<WorkerEditProfileModel> getWorkerLogout(@Field("id") int id);
+
+    // for RXJava
+    @FormUrlEncoded
     @POST("workerprofile/")
     Observable<WorkHistory> getWorkHistory(@Field("id") int password);
+
+
+    @Multipart
+    @POST("workeredit/")
+    Call<WorkerEditProfileModel> editWorkerProfile(@Part("id") RequestBody userid,
+                                                   @Part("firstname") RequestBody name,
+                                                   @Part MultipartBody.Part file);
 
 
 }

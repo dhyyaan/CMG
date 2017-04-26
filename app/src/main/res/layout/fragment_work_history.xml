@@ -14,7 +14,7 @@
             android:padding="5dp">
 
 
-            <com.think360.cmg.utils.RobotoNormalTextView
+            <com.think360.cmg.utils.customfonts.RobotoNormalTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -22,7 +22,7 @@
                 android:text="@string/proyecto"
                 android:textColor="@color/colorPrimary" />
 
-            <com.think360.cmg.utils.RobotoNormalTextView
+            <com.think360.cmg.utils.customfonts.RobotoNormalTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -30,7 +30,7 @@
                 android:text="@string/inicio"
                 android:textColor="@color/colorPrimary" />
 
-            <com.think360.cmg.utils.RobotoNormalTextView
+            <com.think360.cmg.utils.customfonts.RobotoNormalTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -38,7 +38,7 @@
                 android:text="@string/estado"
                 android:textColor="@color/colorPrimary" />
 
-            <com.think360.cmg.utils.RobotoNormalTextView
+            <com.think360.cmg.utils.customfonts.RobotoNormalTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

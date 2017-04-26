@@ -117,7 +117,7 @@
             </LinearLayout>
 
             <!-- Signup Button -->
-            <com.think360.cmg.utils.RobotoLightTextView
+            <com.think360.cmg.utils.customfonts.RobotoLightTextView
                 android:id="@+id/btnSignIn"
                 android:layout_width="fill_parent"
                 android:layout_height="48dp"

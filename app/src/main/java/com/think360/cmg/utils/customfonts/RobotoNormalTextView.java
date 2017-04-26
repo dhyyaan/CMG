@@ -1,4 +1,4 @@
-package com.think360.cmg.utils;
+package com.think360.cmg.utils.customfonts;
 
 import android.content.Context;
 import android.graphics.Typeface;

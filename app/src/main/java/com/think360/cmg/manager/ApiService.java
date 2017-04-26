@@ -34,7 +34,7 @@ public interface ApiService {
 
     @FormUrlEncoded
     @POST("workerlogout")
-    Call<WorkerEditProfileModel> getWorkerLogout(@Field("id") int id);
+    Call<WorkerEditProfileModel> logoutWorker(@Field("id") int id);
 
     // for RXJava
     @FormUrlEncoded

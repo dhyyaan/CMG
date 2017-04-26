@@ -1,11 +1,10 @@
-package com.think360.cmg.di;
+package com.think360.cmg.di.scopes;
+
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import javax.inject.Scope;
-
-@Scope
+@ApplicationContext
 @Retention(RetentionPolicy.RUNTIME)
-public @interface PerActivity {
+public @interface ApplicationContext {
 }

@@ -39,7 +39,7 @@ public class HomePresenter extends BasePresenter {
     private void logout() {
 
 
-        apiService.getWorkerLogout(AppController.sharedPreferencesCompat.getInt(AppConstants.WORKER_ID, 0)).enqueue(new Callback<WorkerEditProfileModel>() {
+        apiService.logoutWorker(AppController.sharedPreferencesCompat.getInt(AppConstants.WORKER_ID, 0)).enqueue(new Callback<WorkerEditProfileModel>() {
             @Override
             public void onResponse(Call<WorkerEditProfileModel> call, Response<WorkerEditProfileModel> response) {
                 pDialog.dismiss();

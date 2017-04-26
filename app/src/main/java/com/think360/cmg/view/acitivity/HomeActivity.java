@@ -16,9 +16,8 @@ import com.think360.cmg.adapter.PagerAdapter;
 import com.think360.cmg.databinding.ActivityHomeBinding;
 import com.think360.cmg.manager.ApiService;
 import com.think360.cmg.presenter.HomePresenter;
-import com.think360.cmg.utils.AppConstants;
 import com.think360.cmg.view.fragment.ProfileFragment;
-import com.think360.cmg.view.fragment.WorkFragment;
+import com.think360.cmg.view.fragment.WorkTimeFragment;
 import com.think360.cmg.view.fragment.WorkHistoryFragment;
 
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ import javax.inject.Inject;
 
 import it.sephiroth.android.library.bottomnavigation.BottomNavigation;
 
-public class HomeActivity extends AppCompatActivity implements WorkFragment.OnFragmentInteractionListener, WorkHistoryFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener, HomePresenter.View {
+public class HomeActivity extends AppCompatActivity implements WorkTimeFragment.OnFragmentInteractionListener, WorkHistoryFragment.OnFragmentInteractionListener, ProfileFragment.OnFragmentInteractionListener, HomePresenter.View {
 
     @Inject
     ApiService apiService;
@@ -40,18 +39,23 @@ public class HomeActivity extends AppCompatActivity implements WorkFragment.OnFr
         ((AppController) getApplication()).getComponent().inject(this);
         activityHomeBinding = DataBindingUtil.setContentView(HomeActivity.this, R.layout.activity_home);
         activityHomeBinding.viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager(), getFragmentArrrayList()));
+        activityHomeBinding.viewPager.setOffscreenPageLimit(3);
+        activityHomeBinding.toolbar.toolBarTitle.setText("Historico");
         activityHomeBinding.BottomNavigation.setOnMenuItemClickListener(new BottomNavigation.OnMenuItemSelectionListener() {
             @Override
             public void onMenuItemSelect(@IdRes int i, int i1, boolean b) {
 
                 switch (i) {
                     case R.id.bbn_item1:
+                        activityHomeBinding.toolbar.toolBarTitle.setText("Historico");
                         activityHomeBinding.viewPager.setCurrentItem(0);
                         break;
                     case R.id.bbn_item2:
+                        activityHomeBinding.toolbar.toolBarTitle.setText("Trabajo");
                         activityHomeBinding.viewPager.setCurrentItem(1);
                         break;
                     case R.id.bbn_item3:
+                        activityHomeBinding.toolbar.toolBarTitle.setText("Ajustes");
                         activityHomeBinding.viewPager.setCurrentItem(2);
                         break;
 
@@ -79,7 +83,7 @@ public class HomeActivity extends AppCompatActivity implements WorkFragment.OnFr
     private ArrayList<Fragment> getFragmentArrrayList() {
         ArrayList<Fragment> fragmentSparseArray = new ArrayList<>();
         fragmentSparseArray.add(WorkHistoryFragment.newInstance("", ""));
-        fragmentSparseArray.add(WorkFragment.newInstance("", ""));
+        fragmentSparseArray.add(WorkTimeFragment.newInstance("", ""));
         fragmentSparseArray.add(ProfileFragment.newInstance("", ""));
 
         return fragmentSparseArray;

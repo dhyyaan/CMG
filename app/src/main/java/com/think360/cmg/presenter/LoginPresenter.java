@@ -30,8 +30,7 @@ public class LoginPresenter extends BasePresenter {
     public LoginPresenter(final LoginPresenter.View view, ApiService apiService, String email, String password) {
         super((LoginActivity) view);
         this.view = view;
-
-
+        pDialog.show();
         apiService.loginUser(email, password).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {

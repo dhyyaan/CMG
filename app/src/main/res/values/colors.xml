@@ -10,7 +10,8 @@
     <color name="black_overlay">#66000000</color>
     <color name="appGray">#66000000</color>
     <color name="white">#fff</color>
-    <color name="appGrayProfile">#99A3AC</color>
-    <color name="profilePhotoBorder">#B5BBC6</color>
     <color name="oppositeInRec">#E1E1E0</color>
+    <color name="appGreen">#00C722</color>
+    <color name="appRed">#FF0000</color>
+    <color name="appHoursBack">#E6E7EB</color>
 </resources>

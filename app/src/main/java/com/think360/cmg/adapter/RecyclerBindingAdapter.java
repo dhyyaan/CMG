@@ -40,7 +40,7 @@ public class RecyclerBindingAdapter<T> extends RecyclerView.Adapter<RecyclerBind
         final T item = items.get(position);
 
         holder.getBinding().setVariable(variableId, item);
-        holder.getBinding().getRoot().findViewById(R.id.layoutSingleItem).setBackgroundColor(position%2==0? ContextCompat.getColor(holder.getBinding().getRoot().getContext(), R.color.oppositeInRec): ContextCompat.getColor(holder.getBinding().getRoot().getContext(), R.color.white));
+     //   holder.getBinding().getRoot().findViewById(R.id.layoutSingleItem).setBackgroundColor(position%2==0? ContextCompat.getColor(holder.getBinding().getRoot().getContext(), R.color.oppositeInRec): ContextCompat.getColor(holder.getBinding().getRoot().getContext(), R.color.white));
 
 
     }

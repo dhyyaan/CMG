@@ -40,7 +40,7 @@
                             android:layout_gravity="center"
                             android:gravity="center">
 
-                            <com.think360.cmg.utils.CircleImageview
+                            <com.think360.cmg.widgets.CircleImageview
                                 android:id="@+id/ivUser"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -50,7 +50,7 @@
                                 app:civ_border_width="7.5dp"
                                 app:civ_fill_color="@color/appYellow" />
 
-                            <com.think360.cmg.utils.CircleImageview
+                            <com.think360.cmg.widgets.CircleImageview
                                 android:id="@+id/fabImagePickup"
                                 android:layout_width="28dp"
                                 android:layout_height="28dp"
@@ -73,7 +73,7 @@
                             android:layout_marginTop="@dimen/activity_horizontal_margin"
                             android:orientation="horizontal">
 
-                            <com.think360.cmg.utils.customfonts.RobotoLightTextView
+                            <com.think360.cmg.widgets.customfonts.RobotoLightTextView
                                 android:id="@+id/tvName"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -91,14 +91,14 @@
                         </LinearLayout>
                     </LinearLayout>
 
-                    <com.think360.cmg.utils.customfonts.RobotoLightTextView
+                    <com.think360.cmg.widgets.customfonts.RobotoLightTextView
                         style="@style/TextViewHeader"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/userName" />
 
 
-                    <com.think360.cmg.utils.customfonts.RobotoLightEditText
+                    <com.think360.cmg.widgets.customfonts.RobotoLightEditText
                         android:id="@+id/editName"
                         style="@style/EditTextRoboto"
                         android:layout_width="match_parent"
@@ -109,7 +109,7 @@
 
                     <!-- Signup Button -->
                     <!-- Signup Button -->
-                    <com.think360.cmg.utils.customfonts.RobotoLightTextView
+                    <com.think360.cmg.widgets.customfonts.RobotoLightTextView
                         android:id="@+id/btnSave"
                         android:layout_width="fill_parent"
                         android:layout_height="48dp"

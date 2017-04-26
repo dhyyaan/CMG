@@ -1,4 +1,4 @@
-package com.think360.cmg.utils.customfonts;
+package com.think360.cmg.widgets.customfonts;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -25,7 +25,6 @@ public class RobotoBoldTextView extends android.support.v7.widget.AppCompatTextV
     }
 
     private void init() {
-        setTextColor(ContextCompat.getColor(getContext(), R.color.colorPrimary));
         Typeface tf = Typeface.createFromAsset(getContext().getAssets(), "fonts/robotobold.ttf");
         setTypeface(tf);
 

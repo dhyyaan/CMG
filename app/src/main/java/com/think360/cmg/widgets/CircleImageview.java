@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.think360.cmg.utils;
+package com.think360.cmg.widgets;
 
 import android.content.Context;
 import android.content.res.TypedArray;

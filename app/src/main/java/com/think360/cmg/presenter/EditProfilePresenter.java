@@ -46,7 +46,7 @@ public class EditProfilePresenter extends BasePresenter {
 
     private void saveProfile(String name, Uri imageuri, Context context) {
 
-
+        pDialog.show();
         RequestBody userId = RequestBody.create(MediaType.parse("text/plain"), AppController.sharedPreferencesCompat.getInt(AppConstants.WORKER_ID, 0) + "");
         RequestBody etName = RequestBody.create(MediaType.parse("text/plain"), name);
 

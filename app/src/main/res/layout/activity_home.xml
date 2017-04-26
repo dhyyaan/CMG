@@ -19,14 +19,14 @@
                 layout="@layout/toolbar_layout" />
 
 
-            <android.support.v4.view.ViewPager
+            <com.think360.cmg.widgets.NonSwipeableViewPager
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@+id/BottomNavigation"
                 android:layout_below="@+id/toolbar">
 
-            </android.support.v4.view.ViewPager>
+            </com.think360.cmg.widgets.NonSwipeableViewPager>
 
             <it.sephiroth.android.library.bottomnavigation.BottomNavigation
                 android:id="@+id/BottomNavigation"

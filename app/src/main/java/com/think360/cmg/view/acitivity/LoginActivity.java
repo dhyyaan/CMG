@@ -23,7 +23,7 @@ import javax.inject.Inject;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
-public class LoginActivity extends AppCompatActivity implements LoginPresenter.View {
+public class LoginActivity extends AppCompatActivity implements LoginPresenter.View, View.OnClickListener {
 
 
    /* @Inject
@@ -53,28 +53,10 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-    }
-
-
-    public void login(View view) {
-
-        if (TextUtils.isEmpty(activityMainBinding.etEmail.getText().toString().trim()) || TextUtils.isEmpty(activityMainBinding.etPassword.getText().toString().trim()) | !KeyboardUtil.isValidEmail(activityMainBinding.etEmail.getText().toString().trim())) {
-            if (!TextUtils.isEmpty(activityMainBinding.etEmail.getText().toString().trim())) {
-                Toast.makeText(LoginActivity.this, "Email can't be empty", Toast.LENGTH_SHORT).show();
-
-            } else if (!KeyboardUtil.isValidEmail(activityMainBinding.etEmail.getText().toString().trim())) {
-                Toast.makeText(LoginActivity.this, "Email should be valid", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(LoginActivity.this, "Password can't be empty", Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            new LoginPresenter(this, apiService, activityMainBinding.etEmail.getText().toString().trim(), activityMainBinding.etPassword.getText().toString().trim());
-        }
-
+        activityMainBinding.btnSignIn.setOnClickListener(this);
 
     }
+
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -96,5 +78,25 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
     @Override
     public void loginFailed(Throwable t) {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.btnSignIn:
+                if (TextUtils.isEmpty(activityMainBinding.etEmail.getText().toString().trim()) || TextUtils.isEmpty(activityMainBinding.etPassword.getText().toString().trim()) | !KeyboardUtil.isValidEmail(activityMainBinding.etEmail.getText().toString().trim())) {
+                    if (!TextUtils.isEmpty(activityMainBinding.etEmail.getText().toString().trim())) {
+                        Toast.makeText(LoginActivity.this, "Email can't be empty", Toast.LENGTH_SHORT).show();
+
+                    } else if (!KeyboardUtil.isValidEmail(activityMainBinding.etEmail.getText().toString().trim())) {
+                        Toast.makeText(LoginActivity.this, "Email should be valid", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Password can't be empty", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    new LoginPresenter(this, apiService, activityMainBinding.etEmail.getText().toString().trim(), activityMainBinding.etPassword.getText().toString().trim());
+                }
+                break;
+        }
     }
 }

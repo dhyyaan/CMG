@@ -1,7 +1,6 @@
 package com.think360.cmg.model.work;
 
 import android.databinding.BaseObservable;
-import android.databinding.Bindable;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -10,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by think360 on 24/04/17.
  */
 
-public class Data  extends BaseObservable{
+public class Data extends BaseObservable {
 
     @SerializedName("workerid")
     @Expose
@@ -77,6 +76,10 @@ public class Data  extends BaseObservable{
 
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    public String getUserFormatDate() {
+        return String.format("%s | %s", startDate, endDate);
     }
 
 }

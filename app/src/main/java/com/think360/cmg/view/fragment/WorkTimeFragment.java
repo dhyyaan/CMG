@@ -5,11 +5,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatSpinner;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 
 import com.think360.cmg.R;
 
@@ -31,12 +31,12 @@ import io.reactivex.schedulers.Schedulers;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link WorkFragment.OnFragmentInteractionListener} interface
+ * {@link WorkTimeFragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link WorkFragment#newInstance} factory method to
+ * Use the {@link WorkTimeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class WorkFragment extends Fragment {
+public class WorkTimeFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -49,7 +49,7 @@ public class WorkFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
 
-    public WorkFragment() {
+    public WorkTimeFragment() {
         // Required empty public constructor
     }
 
@@ -59,11 +59,11 @@ public class WorkFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment WorkFragment.
+     * @return A new instance of fragment WorkTimeFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static WorkFragment newInstance(String param1, String param2) {
-        WorkFragment fragment = new WorkFragment();
+    public static WorkTimeFragment newInstance(String param1, String param2) {
+        WorkTimeFragment fragment = new WorkTimeFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -109,7 +109,7 @@ public class WorkFragment extends Fragment {
             @Override
             public void onNext(final List<String> strings) {
 
-                ((AutoCompleteTextView) view.findViewById(R.id.acTimeZone)).setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, strings));
+                ((AppCompatSpinner) view.findViewById(R.id.spinnerTimeZone)).setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, strings));
 
             }
 
@@ -138,9 +138,9 @@ public class WorkFragment extends Fragment {
 
         String result = "";
         if (hours > 0) {
-            result = String.format("(GMT+%d:%02d) %s", hours, minutes, tz.getID());
+            result = String.format("%s (GMT+%d:%02d)", tz.getID(), hours, minutes);
         } else {
-            result = String.format("(GMT%d:%02d) %s", hours, minutes, tz.getID());
+            result = String.format("%s (GMT%d:%02d)", tz.getID(), hours, minutes);
         }
 
         return result;

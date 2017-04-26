@@ -8,13 +8,14 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:elevation="3dp"
             android:padding="5dp">
 
 
-            <com.think360.cmg.utils.customfonts.RobotoNormalTextView
+            <com.think360.cmg.widgets.customfonts.RobotoNormalTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -22,7 +23,7 @@
                 android:text="@string/proyecto"
                 android:textColor="@color/colorPrimary" />
 
-            <com.think360.cmg.utils.customfonts.RobotoNormalTextView
+            <com.think360.cmg.widgets.customfonts.RobotoNormalTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -30,7 +31,7 @@
                 android:text="@string/inicio"
                 android:textColor="@color/colorPrimary" />
 
-            <com.think360.cmg.utils.customfonts.RobotoNormalTextView
+            <com.think360.cmg.widgets.customfonts.RobotoNormalTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -38,7 +39,7 @@
                 android:text="@string/estado"
                 android:textColor="@color/colorPrimary" />
 
-            <com.think360.cmg.utils.customfonts.RobotoNormalTextView
+            <com.think360.cmg.widgets.customfonts.RobotoNormalTextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -54,6 +55,7 @@
             android:background="@color/appGray" />
 
         <android.support.v7.widget.RecyclerView
+            android:overScrollMode="never"
             android:id="@+id/rvWorkHistory"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />

@@ -25,7 +25,6 @@ public class BasePresenter {
         pDialog.setMessage("Loading...");
         pDialog.setCancelable(false);
         pDialog.setCanceledOnTouchOutside(true);
-        pDialog.show();
 
 
         alertDialogBuilder.setCancelable(true);

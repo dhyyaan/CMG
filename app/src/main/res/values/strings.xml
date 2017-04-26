@@ -1,13 +1,9 @@
 <resources>
     <string name="app_name">CMG</string>
 
-    <string name="title_activity_splash_screen">SplashScreenActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="password">password</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="proyecto">Proyecto</string>
     <string name="inicio">Inicio</string>
     <string name="estado">Estado</string>
@@ -15,9 +11,12 @@
     <string name="email">Email</string>
     <string name="login">LOGIN</string>
     <string name="email_mobile_no">Email/Mobile no</string>
-    <string name="_123456">123456</string>
+    <string name="_123456">1234</string>
     <string name="amitchauhan1_think360_gmail_com">amitchauhan1.think360@gmail.com</string>
     <string name="userName">Username</string>
     <string name="save">SAVE</string>
     <string name="title_activity_splash">SplashActivity</string>
+    <string name="start">START</string>
+    <string name="pause">PAUSE</string>
+    <string name="finish">FINISH</string>
 </resources>

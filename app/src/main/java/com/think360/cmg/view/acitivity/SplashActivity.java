@@ -45,7 +45,7 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
 
                 if (AppController.sharedPreferencesCompat.getBoolean(AppConstants.IS_LOGIN, false) && AppController.sharedPreferencesCompat.getBoolean(AppConstants.IS_REMEMBER_TAPPED, false)) {
-                    startActivity(new Intent(SplashActivity.this, LoginActivity.class));
+                    startActivity(new Intent(SplashActivity.this, HomeActivity.class));
                     // Contacts permissions have not been granted.
                     Log.i(TAG, "Contact permissions has NOT been granted. Requesting permissions.");
                     requestExternalStoragePermission();

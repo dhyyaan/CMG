@@ -3,6 +3,7 @@ package com.think360.cmg.view.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatSpinner;
@@ -90,6 +91,14 @@ public class WorkTimeFragment extends Fragment {
     @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
+        try {
+            Settings.Global.getInt(getActivity().getContentResolver(), Settings.Global.AUTO_TIME);
+            Settings.Global.getInt(getActivity().getContentResolver(), Settings.Global.AUTO_TIME_ZONE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         Observable.create(new ObservableOnSubscribe<List<String>>() {
             @Override

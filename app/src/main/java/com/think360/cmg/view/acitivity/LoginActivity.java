@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -21,13 +20,11 @@ import com.think360.cmg.utils.KeyboardUtil;
 
 import javax.inject.Inject;
 
+import timber.log.Timber;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class LoginActivity extends AppCompatActivity implements LoginPresenter.View, View.OnClickListener {
 
-
-   /* @Inject
-    SharedPrefsHelper sharedPrefsHelper;*/
 
     @Inject
     ApiService apiService;
@@ -40,19 +37,8 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
-
         ((AppController) getApplication()).getComponent().inject(this);
-
-
-        try {
-            Settings.Global.getInt(getContentResolver(), Settings.Global.AUTO_TIME);
-
-
-            Settings.Global.getInt(getContentResolver(), Settings.Global.AUTO_TIME_ZONE);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        activityMainBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         activityMainBinding.btnSignIn.setOnClickListener(this);
 
     }
@@ -66,10 +52,8 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
 
     @Override
     public void loginSucessfull(String firstName, int workderId) {
-
         AppController.getSharedPrefEditor().putBoolean(AppConstants.IS_REMEMBER_TAPPED, activityMainBinding.switchGprs.isChecked()).apply();
         AppController.getSharedPrefEditor().putBoolean(AppConstants.IS_LOGIN, true).apply();
-
         startActivity(new Intent(LoginActivity.this, HomeActivity.class));
         finish();
     }
@@ -77,12 +61,12 @@ public class LoginActivity extends AppCompatActivity implements LoginPresenter.V
 
     @Override
     public void loginFailed(Throwable t) {
-
+        Timber.d("FAILED", t.getStackTrace());
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.btnSignIn:
                 if (TextUtils.isEmpty(activityMainBinding.etEmail.getText().toString().trim()) || TextUtils.isEmpty(activityMainBinding.etPassword.getText().toString().trim()) | !KeyboardUtil.isValidEmail(activityMainBinding.etEmail.getText().toString().trim())) {
                     if (!TextUtils.isEmpty(activityMainBinding.etEmail.getText().toString().trim())) {

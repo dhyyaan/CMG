@@ -77,7 +77,7 @@ public class StopWatchService extends Service {
 
     public void setUpNotification() {
         builder = new NotificationCompat.Builder(getApplicationContext())
-                .setSmallIcon(R.drawable.email)
+                .setSmallIcon(R.drawable.ic_edit)
                 .setContentTitle("Time Started")
                 .setContentText("00:00:00")
                 .setPriority(NotificationCompat.PRIORITY_MAX)

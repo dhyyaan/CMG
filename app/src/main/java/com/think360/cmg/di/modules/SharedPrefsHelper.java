@@ -1,10 +1,19 @@
 package com.think360.cmg.di.modules;
 
+import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import javax.inject.Singleton;
+
+import dagger.Module;
+import dagger.Provides;
+
 /**
  * Created by janisharali on 25/12/16.
  */
 
-/*@Module
+@Module
 public class SharedPrefsHelper {
 
     public static String PREF_KEY_ACCESS_TOKEN = "access-token";
@@ -60,4 +69,4 @@ public class SharedPrefsHelper {
     public void deleteSavedData(String key) {
         mSharedPreferences.edit().remove(key).apply();
     }
-}*/
+}

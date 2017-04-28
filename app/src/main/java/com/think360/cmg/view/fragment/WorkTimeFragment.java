@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.think360.cmg.AppController;
 import com.think360.cmg.R;
-import com.think360.cmg.model.TimerModel;
 import com.think360.cmg.presenter.TimePresenter;
 import com.think360.cmg.utils.AppConstants;
 
@@ -46,7 +45,7 @@ public class WorkTimeFragment extends Fragment implements TimePresenter.View, Vi
     private int seconds;
     private boolean running;
 
-    private TextView textView;
+    private TextView btnStart, btnFinish, btnPause;
     private AppCompatSpinner appCompatSpinner;
 
     private boolean isTimeRunning = false;
@@ -106,6 +105,11 @@ public class WorkTimeFragment extends Fragment implements TimePresenter.View, Vi
         AppController.getSharedPrefEditor().putBoolean(AppConstants.IS_TIME_RUNNING, isTimeRunning).apply();
         AppController.getSharedPrefEditor().putLong(AppConstants.SYSTEM_MILLIS_WHEN_PAUSED_BY_APP, System.currentTimeMillis()).apply();
         running = false;
+
+        AppController.getSharedPrefEditor().putBoolean(AppConstants.IS_PAUSED_BY_USER, isPausedByWorker).apply();
+        AppController.getSharedPrefEditor().putInt(AppConstants.TIME_ELAPSED_WHEN_PAUSED_BY_WORKDER, seconds).apply();
+
+
         handler.removeCallbacks(runnable);
 
 
@@ -119,9 +123,14 @@ public class WorkTimeFragment extends Fragment implements TimePresenter.View, Vi
             running = true;
             long system = AppController.sharedPreferencesCompat.getLong(AppConstants.SYSTEM_MILLIS_WHEN_PAUSED_BY_APP, System.currentTimeMillis());
             seconds = AppController.sharedPreferencesCompat.getInt(AppConstants.TIME_ELAPSED_WHEN_PAUSED_BY_APP, 0) + (int) (System.currentTimeMillis() - system) / 1000;
-            runTimer(textView);
+            runTimer(btnStart);
         }
-
+        if (AppController.sharedPreferencesCompat.getBoolean(AppConstants.IS_PAUSED_BY_USER, false)) {
+            isPausedByWorker = true;
+            seconds = AppController.sharedPreferencesCompat.getInt(AppConstants.TIME_ELAPSED_WHEN_PAUSED_BY_WORKDER, 0);
+            btnPause.setText("RESUME");
+            setTextOnButton(btnStart, seconds);
+        }
         super.onResume();
     }
 
@@ -182,11 +191,15 @@ public class WorkTimeFragment extends Fragment implements TimePresenter.View, Vi
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        textView = (TextView) view.findViewById(R.id.btnTime);
+        btnStart = (TextView) view.findViewById(R.id.tvStartTime);
+        btnPause = (TextView) view.findViewById(R.id.btnPause);
+        btnFinish = (TextView) view.findViewById(R.id.btnFinish);
+
         appCompatSpinner = (AppCompatSpinner) view.findViewById(R.id.spinnerTimeZone);
-        view.findViewById(R.id.btnPause).setOnClickListener(this);
-        view.findViewById(R.id.btnFinish).setOnClickListener(this);
-        textView.setOnClickListener(this);
+
+        btnFinish.setOnClickListener(this);
+        btnPause.setOnClickListener(this);
+        btnStart.setOnClickListener(this);
 
         try {
             Log.d("TIME", (Settings.Global.getInt(getActivity().getContentResolver(), Settings.Global.AUTO_TIME) == 1) + "");
@@ -237,28 +250,45 @@ public class WorkTimeFragment extends Fragment implements TimePresenter.View, Vi
         switch (v.getId()) {
             case R.id.btnPause:
 
-                if (AppController.sharedPreferencesCompat.getBoolean(AppConstants.TIME_ELAPSED_WHEN_PAUSED_BY_WORKDER, false)) {
+                if (AppController.sharedPreferencesCompat.getBoolean(AppConstants.IS_PAUSED_BY_USER, false)) {
+                    isPausedByWorker = false;
+                    AppController.getSharedPrefEditor().putBoolean(AppConstants.IS_PAUSED_BY_USER, isPausedByWorker).apply();
+                    running = true;
+                    isTimeRunning = true;
+                    btnPause.setText("PAUSE");
+                    seconds = AppController.sharedPreferencesCompat.getInt(AppConstants.TIME_ELAPSED_WHEN_PAUSED_BY_WORKDER, 0);
+                    runTimer(btnStart);
 
-
+                } else {
+                    isPausedByWorker = true;
+                    running = false;
+                    isTimeRunning = false;
+                    handler.removeCallbacks(runnable);
+                    AppController.getSharedPrefEditor().putBoolean(AppConstants.IS_PAUSED_BY_USER, isPausedByWorker).apply();
+                    AppController.getSharedPrefEditor().putInt(AppConstants.TIME_ELAPSED_WHEN_PAUSED_BY_WORKDER, seconds).apply();
+                    btnPause.setText("RESUME");
                 }
-
-                running = false;
-                isTimeRunning = false;
-
-
-                AppController.getSharedPrefEditor().putBoolean(AppConstants.TIME_ELAPSED_WHEN_PAUSED_BY_WORKDER, isPausedByWorker).apply();
-                AppController.getSharedPrefEditor().putInt(AppConstants.TIME_ELAPSED_WHEN_PAUSED_BY_WORKDER, seconds).apply();
 
 
                 break;
-            case R.id.btnTime:
+            case R.id.tvStartTime:
                 isTimeRunning = true;
                 running = true;
-                runTimer(textView);
+                runTimer(btnStart);
 
                 break;
 
             case R.id.btnFinish:
+                isPausedByWorker = false;
+                running = false;
+                isTimeRunning = false;
+
+                handler.removeCallbacks(runnable);
+                btnStart.setText("START");
+
+                AppController.getSharedPrefEditor().putBoolean(AppConstants.IS_PAUSED_BY_USER, false).apply();
+                AppController.getSharedPrefEditor().putInt(AppConstants.TIME_ELAPSED_WHEN_PAUSED_BY_WORKDER, 0).apply();
+
 
                 break;
         }
@@ -278,5 +308,13 @@ public class WorkTimeFragment extends Fragment implements TimePresenter.View, Vi
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    void setTextOnButton(TextView textView, int seconds) {
+        int hours = seconds / 3600;
+        int minutes = (seconds % 3600) / 60;
+        int sec = seconds % 60;
+        String time = String.format("%02d:%02d:%02d", hours, minutes, sec);
+        textView.setText(time);
     }
 }

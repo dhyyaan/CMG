@@ -13,7 +13,7 @@
 
 
         <com.think360.cmg.widgets.customfonts.RobotoLightTextView
-            android:id="@+id/btnSignIn"
+            android:id="@+id/btnTime"
             android:layout_width="fill_parent"
             android:layout_height="48dp"
             android:layout_gravity="center"
@@ -27,7 +27,7 @@
             android:textSize="18sp" />
 
         <com.think360.cmg.widgets.customfonts.RobotoLightTextView
-
+            android:id="@+id/btnPause"
             android:layout_width="fill_parent"
             android:layout_height="48dp"
             android:layout_gravity="center"
@@ -41,7 +41,7 @@
             android:textSize="18sp" />
 
         <com.think360.cmg.widgets.customfonts.RobotoLightTextView
-
+            android:id="@+id/btnFinish"
             android:layout_width="fill_parent"
             android:layout_height="48dp"
             android:layout_gravity="center"

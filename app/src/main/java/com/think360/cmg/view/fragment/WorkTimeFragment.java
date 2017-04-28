@@ -3,30 +3,25 @@ package com.think360.cmg.view.fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.AppCompatSpinner;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
+import com.think360.cmg.AppController;
 import com.think360.cmg.R;
+import com.think360.cmg.model.TimerModel;
+import com.think360.cmg.presenter.TimePresenter;
+import com.think360.cmg.utils.AppConstants;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.TimeZone;
-import java.util.concurrent.TimeUnit;
-
-import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.annotations.NonNull;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -37,7 +32,7 @@ import io.reactivex.schedulers.Schedulers;
  * Use the {@link WorkTimeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class WorkTimeFragment extends Fragment {
+public class WorkTimeFragment extends Fragment implements TimePresenter.View, View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -48,7 +43,17 @@ public class WorkTimeFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private int seconds;
+    private boolean running;
 
+    private TextView textView;
+    private AppCompatSpinner appCompatSpinner;
+
+    private boolean isTimeRunning = false;
+    private final Handler handler = new Handler();
+    private Runnable runnable;
+
+    private boolean isPausedByWorker = false;
 
     public WorkTimeFragment() {
         // Required empty public constructor
@@ -89,72 +94,113 @@ public class WorkTimeFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onPause() {
+
+
+        AppController.getSharedPrefEditor().putInt(AppConstants.TIME_ELAPSED_WHEN_PAUSED_BY_APP, seconds).apply();
+        AppController.getSharedPrefEditor().putBoolean(AppConstants.IS_TIME_RUNNING, isTimeRunning).apply();
+        AppController.getSharedPrefEditor().putLong(AppConstants.SYSTEM_MILLIS_WHEN_PAUSED_BY_APP, System.currentTimeMillis()).apply();
+        running = false;
+        handler.removeCallbacks(runnable);
+
+
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+
+        if (AppController.sharedPreferencesCompat.getBoolean(AppConstants.IS_TIME_RUNNING, false)) {
+            running = true;
+            long system = AppController.sharedPreferencesCompat.getLong(AppConstants.SYSTEM_MILLIS_WHEN_PAUSED_BY_APP, System.currentTimeMillis());
+            seconds = AppController.sharedPreferencesCompat.getInt(AppConstants.TIME_ELAPSED_WHEN_PAUSED_BY_APP, 0) + (int) (System.currentTimeMillis() - system) / 1000;
+            runTimer(textView);
+        }
+
+        super.onResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+
+    public void startTimer(View view) {
+        running = true;
+    }
+
+    public void stopTimer(View view) {
+        running = false;
+    }
+
+    public void resetTimer(View view) {
+        running = true;
+        seconds = 0;
+    }
+
+    public void runTimer(final TextView textView) {
+
+
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                int hours = seconds / 3600;
+                int minutes = (seconds % 3600) / 60;
+                int sec = seconds % 60;
+                String time = String.format("%02d:%02d:%02d", hours, minutes, sec);
+                textView.setText(time);
+                isTimeRunning = true;
+                if (running) {
+                    seconds++;
+                }
+                handler.postDelayed(this, 1000);
+            }
+        };
+
+        handler.post(runnable);
+
+    }
+
+
+    @Override
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        textView = (TextView) view.findViewById(R.id.btnTime);
+        appCompatSpinner = (AppCompatSpinner) view.findViewById(R.id.spinnerTimeZone);
+        view.findViewById(R.id.btnPause).setOnClickListener(this);
+        view.findViewById(R.id.btnFinish).setOnClickListener(this);
+        textView.setOnClickListener(this);
 
         try {
-            Settings.Global.getInt(getActivity().getContentResolver(), Settings.Global.AUTO_TIME);
-            Settings.Global.getInt(getActivity().getContentResolver(), Settings.Global.AUTO_TIME_ZONE);
+            Log.d("TIME", (Settings.Global.getInt(getActivity().getContentResolver(), Settings.Global.AUTO_TIME) == 1) + "");
+            Log.d("TIME_ZONE", (Settings.Global.getInt(getActivity().getContentResolver(), Settings.Global.AUTO_TIME_ZONE) == 1) + "");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        Observable.create(new ObservableOnSubscribe<List<String>>() {
-            @Override
-            public void subscribe(@NonNull ObservableEmitter<List<String>> e) throws Exception {
-                List<String> stringArrayList = new ArrayList<>();
-                for (String id : TimeZone.getAvailableIDs()) {
-                    stringArrayList.add(displayTimeZone(TimeZone.getTimeZone(id)));
-                }
-                e.onNext(stringArrayList);
-            }
-        }).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Observer<List<String>>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-
-            }
-
-            @Override
-            public void onNext(final List<String> strings) {
-
-                ((AppCompatSpinner) view.findViewById(R.id.spinnerTimeZone)).setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, strings));
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-        });
+        new TimePresenter(WorkTimeFragment.this);
 
 
     }
 
-
-    private static String displayTimeZone(TimeZone tz) {
-
-        long hours = TimeUnit.MILLISECONDS.toHours(tz.getRawOffset());
-        long minutes = TimeUnit.MILLISECONDS.toMinutes(tz.getRawOffset())
-                - TimeUnit.HOURS.toMinutes(hours);
-        // avoid -4:-30 issue
-        minutes = Math.abs(minutes);
-
-        String result = "";
-        if (hours > 0) {
-            result = String.format("%s (GMT+%d:%02d)", tz.getID(), hours, minutes);
-        } else {
-            result = String.format("%s (GMT%d:%02d)", tz.getID(), hours, minutes);
-        }
-
-        return result;
-
-    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -179,6 +225,45 @@ public class WorkTimeFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+    @Override
+    public void onTimeZonesAdded(List<String> list) {
+        appCompatSpinner.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, list));
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnPause:
+
+                if (AppController.sharedPreferencesCompat.getBoolean(AppConstants.TIME_ELAPSED_WHEN_PAUSED_BY_WORKDER, false)) {
+
+
+                }
+
+                running = false;
+                isTimeRunning = false;
+
+
+                AppController.getSharedPrefEditor().putBoolean(AppConstants.TIME_ELAPSED_WHEN_PAUSED_BY_WORKDER, isPausedByWorker).apply();
+                AppController.getSharedPrefEditor().putInt(AppConstants.TIME_ELAPSED_WHEN_PAUSED_BY_WORKDER, seconds).apply();
+
+
+                break;
+            case R.id.btnTime:
+                isTimeRunning = true;
+                running = true;
+                runTimer(textView);
+
+                break;
+
+            case R.id.btnFinish:
+
+                break;
+        }
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this

@@ -14,4 +14,14 @@ public class AppConstants {
     public static final String WORKER_EMAIL = "WORKER_EMAIL";
     public static final String IS_LOGIN = "IS_LOGIN";
     public static final String IS_REMEMBER_TAPPED = "IS_REMEMBER_TAPPED";
+
+    public static final String IS_TIME_RUNNING = "IS_TIME_RUNNING";
+    public static final String IS_PAUSED_BY_USER = "IS_PAUSED_BY_USER";
+    public static final String SYSTEM_MILLIS_WHEN_PAUSED_BY_APP = "SYSTEM_MILLIS_WHEN_PAUSED_BY_APP";
+    public static final String TIME_ELAPSED_WHEN_PAUSED_BY_APP = "TIME_ELAPSED_WHEN_PAUSED_BY_APP";
+
+    public static final String SYSTEM_MILLIS_WHEN_PAUSED_BY_WORKDER = "SYSTEM_MILLIS_WHEN_PAUSED_BY_WORKDER";
+    public static final String TIME_ELAPSED_WHEN_PAUSED_BY_WORKDER = "TIME_ELAPSED_WHEN_PAUSED_BY_WORKDER";
+
+
 }

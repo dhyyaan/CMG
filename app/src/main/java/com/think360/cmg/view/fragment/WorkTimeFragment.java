@@ -270,7 +270,7 @@ public class WorkTimeFragment extends Fragment implements TimePresenter.View, Vi
                     Data data = (Data) parent.getAdapter().getItem(position);
                     projectId = data.getProjectId();
                     projectName = data.getProjectName();
-                    tvProjectName.setText(projectName);
+                    tvTimezone.setText(projectName);
                 }
 
             }

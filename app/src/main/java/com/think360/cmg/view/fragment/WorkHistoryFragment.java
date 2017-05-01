@@ -136,7 +136,7 @@ public class WorkHistoryFragment extends Fragment implements ProjectPresenter.Vi
     }
 
     @Override
-    public void showGithubInfo(WorkHistory collection) {
+    public void OnProjectLoadComplete(WorkHistory collection) {
         fragmentWorkHistoryBinding.rvWorkHistory.setAdapter(new RecyclerBindingAdapter<>(R.layout.single_item_project, BR.project, (AbstractList<Data>) collection.getData()));
     }
 

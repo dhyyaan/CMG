@@ -34,7 +34,7 @@ ext {
     rxJavaVersion = "1.2.7"
 
 }
-
+def dbflow_version = "4.0.0-beta7"
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
@@ -46,12 +46,13 @@ dependencies {
 
     //rxjava
     // Because RxAndroid releases are few and far between, it is recommended you also
-// explicitly depend on RxJava's latest version for bug fixes and new features.
+    // explicitly depend on RxJava's latest version for bug fixes and new features.
 
-    
-
+    annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
+    compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
+    compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
     // for debuging
-    
+
     //retrofit
     compile "com.squareup.retrofit2:adapter-rxjava:$retrofitVersion"
     compile "com.squareup.retrofit2:retrofit:$retrofitVersion"
@@ -65,7 +66,7 @@ dependencies {
     compile "uk.co.chrisjenx:calligraphy:$calligraphyVerion"
 
     //image Compression
-    
+
     //image picker
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'id.zelory:compressor:1.0.4'

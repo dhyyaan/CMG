@@ -8,6 +8,7 @@ import com.think360.cmg.di.modules.HttpModule;
 import com.think360.cmg.manager.ApiService;
 import com.think360.cmg.view.fragment.ProfileFragment;
 import com.think360.cmg.view.fragment.WorkHistoryFragment;
+import com.think360.cmg.view.fragment.WorkTimeFragment;
 
 import javax.inject.Singleton;
 
@@ -20,6 +21,8 @@ public interface AppComponent {
     void inject(LoginActivity fragment);
     void inject(WorkHistoryFragment fragment);
     void inject(ProfileFragment fragment);
+
+    void inject(WorkTimeFragment fragment);
     ApiService api();
 
 

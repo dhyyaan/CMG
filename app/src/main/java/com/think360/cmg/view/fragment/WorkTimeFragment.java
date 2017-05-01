@@ -7,20 +7,28 @@ import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.AppCompatSpinner;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
+import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.think360.cmg.AppController;
 import com.think360.cmg.R;
+import com.think360.cmg.adapter.WeatherAdapter;
+import com.think360.cmg.manager.ApiService;
+import com.think360.cmg.model.work.Data;
+import com.think360.cmg.model.work.WorkHistory;
 import com.think360.cmg.presenter.TimePresenter;
 import com.think360.cmg.utils.AppConstants;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 
 /**
@@ -36,23 +44,22 @@ public class WorkTimeFragment extends Fragment implements TimePresenter.View, Vi
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    @Inject
+    ApiService apiService;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
     private OnFragmentInteractionListener mListener;
     private int seconds;
     private boolean running;
-
-    private TextView btnStart, btnFinish, btnPause;
-    private AppCompatSpinner appCompatSpinner;
-
+    private TextView btnStart, btnFinish, btnPause, tvProjectName, tvTimezone;
+    private Spinner appCompatSpinner, spinnerProject;
     private boolean isTimeRunning = false;
-    private final Handler handler = new Handler();
+    private Handler handler;
     private Runnable runnable;
-
     private boolean isPausedByWorker = false;
+    private String projectId = "";
+    private String projectName = "";
 
     public WorkTimeFragment() {
         // Required empty public constructor
@@ -89,6 +96,9 @@ public class WorkTimeFragment extends Fragment implements TimePresenter.View, Vi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+        ((AppController) getActivity().getApplication()).getComponent()
+                .inject(this);
         return inflater.inflate(R.layout.fragment_work, container, false);
     }
 
@@ -100,7 +110,6 @@ public class WorkTimeFragment extends Fragment implements TimePresenter.View, Vi
     @Override
     public void onPause() {
 
-
         AppController.getSharedPrefEditor().putInt(AppConstants.TIME_ELAPSED_WHEN_PAUSED_BY_APP, seconds).apply();
         AppController.getSharedPrefEditor().putBoolean(AppConstants.IS_TIME_RUNNING, isTimeRunning).apply();
         AppController.getSharedPrefEditor().putLong(AppConstants.SYSTEM_MILLIS_WHEN_PAUSED_BY_APP, System.currentTimeMillis()).apply();
@@ -109,9 +118,9 @@ public class WorkTimeFragment extends Fragment implements TimePresenter.View, Vi
         AppController.getSharedPrefEditor().putBoolean(AppConstants.IS_PAUSED_BY_USER, isPausedByWorker).apply();
         AppController.getSharedPrefEditor().putInt(AppConstants.TIME_ELAPSED_WHEN_PAUSED_BY_WORKDER, seconds).apply();
 
-
-        handler.removeCallbacks(runnable);
-
+        if (handler != null) {
+            handler.removeCallbacks(runnable);
+        }
 
         super.onPause();
     }
@@ -165,7 +174,7 @@ public class WorkTimeFragment extends Fragment implements TimePresenter.View, Vi
 
     public void runTimer(final TextView textView) {
 
-
+        handler = new Handler();
         runnable = new Runnable() {
             @Override
             public void run() {
@@ -191,15 +200,25 @@ public class WorkTimeFragment extends Fragment implements TimePresenter.View, Vi
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        btnStart = (TextView) view.findViewById(R.id.tvStartTime);
+        btnStart = (TextView) view.findViewById(R.id.btnStart);
         btnPause = (TextView) view.findViewById(R.id.btnPause);
         btnFinish = (TextView) view.findViewById(R.id.btnFinish);
 
-        appCompatSpinner = (AppCompatSpinner) view.findViewById(R.id.spinnerTimeZone);
 
-        btnFinish.setOnClickListener(this);
-        btnPause.setOnClickListener(this);
+        tvProjectName = (TextView) view.findViewById(R.id.tvProjectName);
+        tvProjectName.setOnClickListener(this);
+        tvTimezone = (TextView) view.findViewById(R.id.tvTimezone);
+        tvTimezone.setOnClickListener(this);
+
+
+        spinnerProject = (Spinner) view.findViewById(R.id.spinnerProject);
+        appCompatSpinner = (Spinner) view.findViewById(R.id.spinnerTimeZone);
+
+
         btnStart.setOnClickListener(this);
+        btnPause.setOnClickListener(this);
+        btnFinish.setOnClickListener(this);
+
 
         try {
             Log.d("TIME", (Settings.Global.getInt(getActivity().getContentResolver(), Settings.Global.AUTO_TIME) == 1) + "");
@@ -209,7 +228,7 @@ public class WorkTimeFragment extends Fragment implements TimePresenter.View, Vi
             e.printStackTrace();
         }
 
-        new TimePresenter(WorkTimeFragment.this);
+        new TimePresenter(WorkTimeFragment.this, apiService, 1);
 
 
     }
@@ -240,60 +259,157 @@ public class WorkTimeFragment extends Fragment implements TimePresenter.View, Vi
     }
 
     @Override
-    public void onTimeZonesAdded(List<String> list) {
-        appCompatSpinner.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, list));
+    public void onTimeZonesAdded(List<Data> list) {
+        appCompatSpinner.setAdapter(new WeatherAdapter(getActivity(), list));
 
+        appCompatSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                if (position >= 0) {
+                    Data data = (Data) parent.getAdapter().getItem(position);
+                    projectId = data.getProjectId();
+                    projectName = data.getProjectName();
+                    tvProjectName.setText(projectName);
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+    }
+
+    @Override
+    public void OnProjectLoadComplete(WorkHistory collection) {
+        Data data = new Data();
+        data.setProjectName("Select Project");
+        data.setProjectId("");
+
+        collection.getData().add(0, data);
+        spinnerProject.setAdapter(new WeatherAdapter(getActivity(), collection.getData()));
+        spinnerProject.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                if (position >= 0) {
+                    Data data = (Data) parent.getAdapter().getItem(position);
+                    projectId = data.getProjectId();
+                    projectName = data.getProjectName();
+                    tvProjectName.setText(projectName);
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onCompleted() {
+
+    }
+
+    @Override
+    public void onError(Throwable t) {
+        t.printStackTrace();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnPause:
 
-                if (AppController.sharedPreferencesCompat.getBoolean(AppConstants.IS_PAUSED_BY_USER, false)) {
-                    isPausedByWorker = false;
-                    AppController.getSharedPrefEditor().putBoolean(AppConstants.IS_PAUSED_BY_USER, isPausedByWorker).apply();
-                    running = true;
-                    isTimeRunning = true;
-                    btnPause.setText("PAUSE");
-                    seconds = AppController.sharedPreferencesCompat.getInt(AppConstants.TIME_ELAPSED_WHEN_PAUSED_BY_WORKDER, 0);
-                    runTimer(btnStart);
 
+            case R.id.btnStart:
+                if (!TextUtils.isEmpty(projectId)) {
+                    if (seconds == 0) {
+                        isTimeRunning = true;
+                        running = true;
+                        runTimer(btnStart);
+                    } else {
+                        Toast.makeText(getActivity(), "Finish Current Job First", Toast.LENGTH_SHORT).show();
+
+                    }
                 } else {
-                    isPausedByWorker = true;
-                    running = false;
-                    isTimeRunning = false;
-                    handler.removeCallbacks(runnable);
-                    AppController.getSharedPrefEditor().putBoolean(AppConstants.IS_PAUSED_BY_USER, isPausedByWorker).apply();
-                    AppController.getSharedPrefEditor().putInt(AppConstants.TIME_ELAPSED_WHEN_PAUSED_BY_WORKDER, seconds).apply();
-                    btnPause.setText("RESUME");
+                    Toast.makeText(getActivity(), "Select Any project To Start With", Toast.LENGTH_SHORT).show();
+
+                }
+
+                break;
+
+            case R.id.btnPause:
+                if (seconds > 0) {
+
+
+                    if (AppController.sharedPreferencesCompat.getBoolean(AppConstants.IS_PAUSED_BY_USER, false)) {
+                        isPausedByWorker = false;
+                        AppController.getSharedPrefEditor().putBoolean(AppConstants.IS_PAUSED_BY_USER, isPausedByWorker).apply();
+                        running = true;
+                        isTimeRunning = true;
+                        btnPause.setText("PAUSE");
+                        seconds = AppController.sharedPreferencesCompat.getInt(AppConstants.TIME_ELAPSED_WHEN_PAUSED_BY_WORKDER, 0);
+                        runTimer(btnStart);
+
+                    } else {
+                        isPausedByWorker = true;
+                        running = false;
+                        isTimeRunning = false;
+                        handler.removeCallbacks(runnable);
+                        AppController.getSharedPrefEditor().putBoolean(AppConstants.IS_PAUSED_BY_USER, isPausedByWorker).apply();
+                        AppController.getSharedPrefEditor().putInt(AppConstants.TIME_ELAPSED_WHEN_PAUSED_BY_WORKDER, seconds).apply();
+                        btnPause.setText("RESUME");
+                    }
+                } else {
+                    Toast.makeText(getActivity(), "Start a Job First", Toast.LENGTH_SHORT).show();
+
                 }
 
 
                 break;
-            case R.id.tvStartTime:
-                isTimeRunning = true;
-                running = true;
-                runTimer(btnStart);
 
-                break;
 
             case R.id.btnFinish:
-                isPausedByWorker = false;
-                running = false;
-                isTimeRunning = false;
+                if (seconds > 0) {
+                    handler.removeCallbacks(runnable);
+                    isPausedByWorker = false;
+                    running = false;
+                    isTimeRunning = false;
+                    seconds = 0;
 
-                handler.removeCallbacks(runnable);
-                btnStart.setText("START");
+                    btnStart.setText("START");
 
-                AppController.getSharedPrefEditor().putBoolean(AppConstants.IS_PAUSED_BY_USER, false).apply();
-                AppController.getSharedPrefEditor().putInt(AppConstants.TIME_ELAPSED_WHEN_PAUSED_BY_WORKDER, 0).apply();
+                    AppController.getSharedPrefEditor().putBoolean(AppConstants.IS_PAUSED_BY_USER, false).apply();
+                    AppController.getSharedPrefEditor().putInt(AppConstants.TIME_ELAPSED_WHEN_PAUSED_BY_WORKDER, 0).apply();
 
+                } else {
+                    Toast.makeText(getActivity(), "Start a Job First", Toast.LENGTH_SHORT).show();
+                }
+                break;
 
+            case R.id.tvProjectName:
+                spinnerProject.performClick();
+                break;
+
+            case R.id.tvTimezone:
+                appCompatSpinner.performClick();
                 break;
         }
     }
 
+    void setTextOnButton(TextView textView, int seconds) {
+        int hours = seconds / 3600;
+        int minutes = (seconds % 3600) / 60;
+        int sec = seconds % 60;
+        String time = String.format("%02d:%02d:%02d", hours, minutes, sec);
+        textView.setText(time);
+    }
 
     /**
      * This interface must be implemented by activities that contain this
@@ -308,13 +424,5 @@ public class WorkTimeFragment extends Fragment implements TimePresenter.View, Vi
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
-    }
-
-    void setTextOnButton(TextView textView, int seconds) {
-        int hours = seconds / 3600;
-        int minutes = (seconds % 3600) / 60;
-        int sec = seconds % 60;
-        String time = String.format("%02d:%02d:%02d", hours, minutes, sec);
-        textView.setText(time);
     }
 }

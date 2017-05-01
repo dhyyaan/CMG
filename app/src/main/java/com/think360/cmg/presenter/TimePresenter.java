@@ -1,9 +1,8 @@
 package com.think360.cmg.presenter;
 
-import android.support.v7.widget.AppCompatSpinner;
-import android.widget.ArrayAdapter;
-
-import com.think360.cmg.R;
+import com.think360.cmg.manager.ApiService;
+import com.think360.cmg.model.work.Data;
+import com.think360.cmg.model.work.WorkHistory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +17,9 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by think360 on 28/04/17.
@@ -27,34 +29,76 @@ public class TimePresenter {
 
     private View view;
 
+    private ApiService api;
+
     public interface View {
-        void onTimeZonesAdded(List<String> list);
+        void onTimeZonesAdded(List<Data> list);
+
+
+        void OnProjectLoadComplete(WorkHistory collection);
+
+        void onCompleted();
+
+        void onError(Throwable t);
+
     }
 
 
-    public TimePresenter(View view) {
+    public TimePresenter(View view, ApiService api, int id) {
+        this.api = api;
         this.view = view;
         createTimerZoneList();
+        getGithubInfo(id);
+    }
+
+
+    private void getGithubInfo(int id) {
+
+        api.getWorkHistoryWithCall(id).enqueue(new Callback<WorkHistory>() {
+            @Override
+            public void onResponse(Call<WorkHistory> call, Response<WorkHistory> response) {
+
+
+                view.OnProjectLoadComplete(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<WorkHistory> call, Throwable t) {
+
+                view.onError(t);
+
+            }
+        });
     }
 
     private void createTimerZoneList() {
-        Observable.create(new ObservableOnSubscribe<List<String>>() {
+        Observable.create(new ObservableOnSubscribe<List<Data>>() {
             @Override
-            public void subscribe(@NonNull ObservableEmitter<List<String>> e) throws Exception {
-                List<String> stringArrayList = new ArrayList<>();
+            public void subscribe(@NonNull ObservableEmitter<List<Data>> e) throws Exception {
+                List<Data> stringArrayList = new ArrayList<>();
+
                 for (String id : TimeZone.getAvailableIDs()) {
-                    stringArrayList.add(displayTimeZone(TimeZone.getTimeZone(id)));
+                    Data data = new Data();
+                    data.setProjectName(displayTimeZone(TimeZone.getTimeZone(id)));
+                    stringArrayList.add(data);
                 }
+                Data data = new Data();
+                data.setProjectName("Select Zone");
+                data.setProjectId("");
+                stringArrayList.add(0, data);
                 e.onNext(stringArrayList);
             }
-        }).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Observer<List<String>>() {
+        }).observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io()).subscribe(new Observer<List<Data>>() {
             @Override
             public void onSubscribe(Disposable d) {
 
             }
 
             @Override
-            public void onNext(final List<String> strings) {
+            public void onNext(final List<Data> strings) {
+
+
+
 
                 view.onTimeZonesAdded(strings);
 

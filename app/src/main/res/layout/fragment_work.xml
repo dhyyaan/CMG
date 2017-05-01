@@ -12,8 +12,44 @@
         android:orientation="vertical">
 
 
-        <com.think360.cmg.widgets.customfonts.RobotoLightTextView
-            android:id="@+id/tvStartTime"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:background="@drawable/rectangle_spinner">
+
+            <TextView
+                android:id="@+id/tvProjectName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:gravity="center_vertical"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:src="@drawable/ic_arrow_drop_down" />
+
+            <Spinner
+                android:id="@+id/spinnerProject"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:spinnerMode="dialog" />
+        </RelativeLayout>
+
+
+        <com.think360.cmg.widgets.customfonts.RobotoNormalTextView
+            android:id="@+id/btnStart"
             android:layout_width="fill_parent"
             android:layout_height="48dp"
             android:layout_gravity="center"
@@ -26,7 +62,7 @@
             android:textColor="@color/white"
             android:textSize="18sp" />
 
-        <com.think360.cmg.widgets.customfonts.RobotoLightTextView
+        <com.think360.cmg.widgets.customfonts.RobotoNormalTextView
             android:id="@+id/btnPause"
             android:layout_width="fill_parent"
             android:layout_height="48dp"
@@ -40,28 +76,56 @@
             android:textColor="@color/appRed"
             android:textSize="18sp" />
 
-        <com.think360.cmg.widgets.customfonts.RobotoLightTextView
+        <com.think360.cmg.widgets.customfonts.RobotoNormalTextView
             android:id="@+id/btnFinish"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginTop="28dp"
             android:background="@drawable/rectangle_red"
+            android:focusable="false"
             android:gravity="center"
             android:text="@string/finish"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
-        <android.support.v7.widget.AppCompatSpinner
-            android:id="@+id/spinnerTimeZone"
+
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:background="@drawable/rectangle_spinner"
-            android:spinnerMode="dialog" />
+            android:background="@drawable/rectangle_spinner">
+
+            <TextView
+                android:id="@+id/tvTimezone"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:gravity="center_vertical"
+                android:textSize="18sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:src="@drawable/ic_arrow_drop_down" />
+
+            <Spinner
+                android:id="@+id/spinnerTimeZone"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:spinnerMode="dialog" />
+        </RelativeLayout>
+
     </LinearLayout>
 </RelativeLayout>

@@ -20,7 +20,7 @@ public class ProjectPresenter {
     private ProjectPresenter.View view;
 
     public interface View {
-        void showGithubInfo(WorkHistory collection);
+        void OnProjectLoadComplete(WorkHistory collection);
 
         void onCompleted();
 
@@ -34,12 +34,12 @@ public class ProjectPresenter {
         getGithubInfo(id);
     }
 
-    public void getGithubInfo(int id) {
+    private void getGithubInfo(int id) {
 
         api.getWorkHistoryWithCall(id).enqueue(new Callback<WorkHistory>() {
             @Override
             public void onResponse(Call<WorkHistory> call, Response<WorkHistory> response) {
-                view.showGithubInfo(response.body());
+                view.OnProjectLoadComplete(response.body());
             }
 
             @Override
@@ -66,7 +66,7 @@ public class ProjectPresenter {
 
                             @Override
                             public void onNext(WorkHistory contributors) {
-                                        view.showGithubInfo(contributors);
+                                        view.OnProjectLoadComplete(contributors);
                                // Timber.d("%s has made %d contributions to %s", );
                             }
 

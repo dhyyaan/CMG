@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.raizlabs.android.dbflow.config.FlowManager;
 import com.think360.cmg.di.components.AppComponent;
 import com.think360.cmg.di.components.DaggerAppComponent;
 import com.think360.cmg.di.modules.AndroidModule;
@@ -27,6 +28,9 @@ public class AppController extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+
+        FlowManager.init(this);
 
         sharedPreferencesCompat = getSharedPreferences("APP_PREF", MODE_PRIVATE);
 
